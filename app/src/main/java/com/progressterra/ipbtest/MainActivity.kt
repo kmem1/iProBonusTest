@@ -1,5 +1,6 @@
 package com.progressterra.ipbtest
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
@@ -15,31 +16,39 @@ import kotlinx.coroutines.coroutineScope
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
+import android.net.NetworkInfo
+
+import android.net.ConnectivityManager
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        lifecycleScope.launchWhenCreated {
-            findViewById<ProgressBar>(R.id.loading_pb).visibility = View.VISIBLE
+        try {
+            if (internetConnection()) {
+                lifecycleScope.launchWhenCreated {
+                    findViewById<ProgressBar>(R.id.loading_pb).visibility = View.VISIBLE
 
-            val accessTokenResult = IPBRepository(BuildConfig.ACCESS_KEY).getAccessToken(
-                BuildConfig.CLIENT_ID,
-                BuildConfig.DEVICE_ID
-            )
+                    val accessTokenResult = IPBRepository(BuildConfig.ACCESS_KEY).getAccessToken(
+                        BuildConfig.CLIENT_ID,
+                        BuildConfig.DEVICE_ID
+                    )
 
-            if (accessTokenResult is RequestResult.Success) {
-                try {
-                    createFragment(getBonusesData(accessTokenResult.data))
-                } catch (e: Exception) {
-                    Toast.makeText(baseContext, "Error while connecting", Toast.LENGTH_SHORT).show()
+                    if (accessTokenResult is RequestResult.Success) {
+                        createFragment(getBonusesData(accessTokenResult.data))
+                    } else {
+                        throw IOException()
+                    }
+
+                    findViewById<ProgressBar>(R.id.loading_pb).visibility = View.GONE
                 }
             } else {
                 Toast.makeText(baseContext, "Error while connecting", Toast.LENGTH_SHORT).show()
             }
-
-            findViewById<ProgressBar>(R.id.loading_pb).visibility = View.GONE
+        } catch (e: Exception) {
+            Toast.makeText(baseContext, "Error while connecting", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -99,6 +108,15 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.fragment_container, fragment, "frag")
             .setReorderingAllowed(true)
             .commit()
+    }
+
+    private fun internetConnection(): Boolean {
+        //Check if connected to internet, output accordingly
+        val cm =
+            this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = cm.activeNetworkInfo
+        return activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting
     }
 
     private data class BonusesData(
