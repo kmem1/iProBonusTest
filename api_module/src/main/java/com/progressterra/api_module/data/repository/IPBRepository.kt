@@ -1,5 +1,6 @@
 package com.progressterra.api_module.data.repository
 
+import android.util.Log
 import com.progressterra.api_module.common.RequestResult
 import com.progressterra.api_module.data.remote.BonusesApi
 import com.progressterra.api_module.data.remote.request_body.GetAccessTokenRequestBody
@@ -23,31 +24,33 @@ class IPBRepository(private val API_KEY: String) {
     suspend fun getCurrentBonuses(accessToken: String): RequestResult<Double> {
         val bonusesDto = BonusesApi.bonusesApiService.getBonuses(API_KEY, accessToken)
 
-        return if (bonusesDto.bonusesResultOperation.status == 0) {
-            RequestResult.success(bonusesDto.bonusesData.currentQuantity)
+        Log.d("dto", "$bonusesDto")
+
+        return if (bonusesDto.resultOperation.status == 0) {
+            RequestResult.success(bonusesDto.data.currentQuantity)
         } else {
-            RequestResult.failed(bonusesDto.bonusesResultOperation.message)
+            RequestResult.failed(bonusesDto.resultOperation.message)
         }
     }
 
     suspend fun getBurningBonuses(accessToken: String): RequestResult<Double> {
         val bonusesDto = BonusesApi.bonusesApiService.getBonuses(API_KEY, accessToken)
 
-        return if (bonusesDto.bonusesResultOperation.status == 0) {
-            RequestResult.success(bonusesDto.bonusesData.forBurningQuantity)
+        return if (bonusesDto.resultOperation.status == 0) {
+            RequestResult.success(bonusesDto.data.forBurningQuantity)
         } else {
-            RequestResult.failed(bonusesDto.bonusesResultOperation.message)
+            RequestResult.failed(bonusesDto.resultOperation.message)
         }
     }
 
     suspend fun getBonusesBurningDate(accessToken: String): RequestResult<Date> {
         val bonusesDto = BonusesApi.bonusesApiService.getBonuses(API_KEY, accessToken)
 
-        return if (bonusesDto.bonusesResultOperation.status == 0) {
+        return if (bonusesDto.resultOperation.status == 0) {
             val date = SimpleDateFormat(
-                "yyyy-MM-DDThh:mm:ss",
+                "yyyy-MM-dd'T'hh:mm:ss",
                 Locale.getDefault()
-            ).parse(bonusesDto.bonusesData.dateBurning)
+            ).parse(bonusesDto.data.dateBurning)
 
             if (date != null) {
                 RequestResult.success(date)
@@ -56,7 +59,7 @@ class IPBRepository(private val API_KEY: String) {
             }
 
         } else {
-            RequestResult.failed(bonusesDto.bonusesResultOperation.message)
+            RequestResult.failed(bonusesDto.resultOperation.message)
         }
     }
 }

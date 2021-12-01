@@ -9,3 +9,4 @@ dependencyResolutionManagement {
 rootProject.name = "IpbTest"
 include ':app'
 include ':api_module'
+include ':view_module'

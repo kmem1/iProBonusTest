@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@null"
+    android:layout_margin="6dp"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="6dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="4dp"
+            android:padding="20dp">
+
+                <TextView
+                    android:id="@+id/bonuses_amount_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/bonuses_widget_primary_text_size"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:fontFamily="sans-serif-medium"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="300 Бонусов"/>
+
+                <TextView
+                    android:id="@+id/burning_date_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:textSize="@dimen/bonuses_widget_secondary_text_size"
+                    android:fontFamily="sans-serif-light"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/bonuses_amount_tv"
+                    tools:text="29.03 сгорит"/>
+
+                <ImageView
+                    android:id="@+id/flame_icon_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="8dp"
+                    android:src="@drawable/flame"
+                    app:layout_constraintBottom_toBottomOf="@+id/burning_date_tv"
+                    app:layout_constraintStart_toEndOf="@+id/burning_date_tv"
+                    app:layout_constraintTop_toTopOf="@+id/burning_date_tv"
+                    android:contentDescription="@string/bonuses_widget_flame_icon_description" />
+
+                <TextView
+                    android:id="@+id/burning_bonuses_amount_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:fontFamily="sans-serif-light"
+                    android:textSize="@dimen/bonuses_widget_secondary_text_size"
+                    app:layout_constraintStart_toEndOf="@+id/flame_icon_iv"
+                    app:layout_constraintTop_toTopOf="@+id/burning_date_tv"
+                    tools:text="250 бонусов" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/bonuses_widget_btn"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bonuses_widget_button_bg_ripple"
+                    android:src="@drawable/ic_baseline_navigate_next_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.76"
+                    tools:ignore="SpeakableTextPresentCheck" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

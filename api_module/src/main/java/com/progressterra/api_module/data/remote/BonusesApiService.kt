@@ -15,7 +15,7 @@ internal interface BonusesApiService {
         @Body body: GetAccessTokenRequestBody
     ): AccessTokenDto
 
-    @GET(Constants.BONUSES_API_URL + "/{AccessToken}")
+    @GET("/api/v3/ibonus/generalinfo/{AccessToken}")
     suspend fun getBonuses(
         @Header("AccessKey") accessKey: String,
         @Path("AccessToken") accessToken: String

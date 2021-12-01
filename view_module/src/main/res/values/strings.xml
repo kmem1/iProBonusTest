@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bonuses_widget_bonuses_amount">%1$d бонусов</string>
+    <string name="bonuses_widget_date_burning">%1$s сгорят</string>
+    <string name="bonuses_widget_flame_icon_description">Flame icon</string>
+</resources>
